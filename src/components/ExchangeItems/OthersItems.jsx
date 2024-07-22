@@ -106,6 +106,14 @@ function OthersItems({ shouldRefetch }) {
         return <FullScreenLoader label="Loading items..." />;
     }
 
+    if (items.length === 0) {
+        return (
+            <div className="text-center p-4">
+                <p>No available items in your area at the moment.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="">
             <h1 className="text-2xl pl-8 font-bold mb-6">

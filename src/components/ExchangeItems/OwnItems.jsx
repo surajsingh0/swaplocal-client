@@ -49,16 +49,27 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
                             className="mt-2 w-full h-40 object-cover rounded"
                         />
                     )}
+                    {item.exchange_status && (
+                        <p className="mt-2 text-sm font-semibold text-blue-600">
+                            Exchange Status: {item.exchange_status}
+                        </p>
+                    )}
                     {isSelectionMode ? (
                         <Button
                             onClick={() => onItemSelect(item)}
                             className="mt-2 w-full bg-blue-500 text-white hover:bg-blue-600"
+                            disabled={item.exchange_status}
                         >
-                            Select for Exchange
+                            {item.exchange_status
+                                ? "Unavailable"
+                                : "Select for Exchange"}
                         </Button>
                     ) : (
-                        <Button className="mt-2 w-full bg-gray-200 text-gray-800 hover:bg-gray-300">
-                            Edit Item
+                        <Button
+                            className="mt-2 w-full bg-gray-200 text-gray-800 hover:bg-gray-300"
+                            disabled={item.exchange_status}
+                        >
+                            {item.exchange_status ? "In Exchange" : "Edit Item"}
                         </Button>
                     )}
                 </div>
