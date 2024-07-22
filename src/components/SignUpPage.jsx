@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ArrowRight, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import FullScreenLoader from "./FullScreenLoader";
+import { AuthContext } from "@/context/AuthContext";
 
 const SignupPage = () => {
     const [formData, setFormData] = useState({
-        name: "",
+        username: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -12,13 +17,41 @@ const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const { loginUser } = useContext(AuthContext);
+
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted:", formData);
+
+        setLoading(true);
+
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}api/users/`,
+                {
+                    username: formData.username,
+                    email: formData.email,
+                    password: formData.password,
+                }
+            );
+
+            console.log("Registration successful:", response.data);
+
+            await loginUser({ username: formData.username, password: formData.password });
+
+            navigate("/post-signup");
+        } catch (error) {
+            console.error("Registration failed:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const togglePasswordVisibility = (field) => {
@@ -31,6 +64,7 @@ const SignupPage = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            {loading && <FullScreenLoader blur="sm" label="Creating account..." />}
             <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -42,7 +76,7 @@ const SignupPage = () => {
                     </p>
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="rounded-md shadow-sm space-y-4">
+                    {/* <div className="rounded-md shadow-sm space-y-4">
                         <div className="relative">
                             <label
                                 htmlFor="name"
@@ -65,6 +99,33 @@ const SignupPage = () => {
                                     className="appearance-none block w-full px-3 py-2 pl-10 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                     placeholder="John Doe"
                                     value={formData.name}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </div> */}
+                    <div className="rounded-md shadow-sm space-y-4">
+                        <div className="relative">
+                            <label
+                                htmlFor="name"
+                                className="block text-sm font-medium text-gray-700 mb-1"
+                            >
+                                Username
+                            </label>
+                            <div className="relative rounded-md shadow-sm">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <User
+                                        className="h-5 w-5 text-gray-400"
+                                        aria-hidden="true"
+                                    />
+                                </div>
+                                <input
+                                    id="username"
+                                    name="username"
+                                    type="text"
+                                    required
+                                    className="appearance-none block w-full px-3 py-2 pl-10 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                    placeholder="username"
+                                    value={formData.username}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -199,6 +260,16 @@ const SignupPage = () => {
                         </button>
                     </div>
                 </form>
+
+                <p className="mt-6 text-sm text-gray-500 text-center">
+                    Already have an account?{" "}
+                    <NavLink
+                        to="/login"
+                        className="font-medium text-green-600 hover:text-green-500 transition duration-300"
+                    >
+                        Log in
+                    </NavLink>
+                </p>
 
                 <div className="mt-6">
                     <div className="relative">
