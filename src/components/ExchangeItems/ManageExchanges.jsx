@@ -119,6 +119,7 @@ function ManageExchanges() {
             <h2 className="text-2xl font-bold mb-6">Manage Exchanges</h2>
             <div className="mb-4">
                 <Button
+                    variant="inline"
                     onClick={() => setActiveTab("active")}
                     className={`mr-2 ${
                         activeTab === "active"
@@ -129,6 +130,7 @@ function ManageExchanges() {
                     Active Exchanges
                 </Button>
                 <Button
+                    variant="inline"
                     onClick={() => setActiveTab("history")}
                     className={`mr-2 ${
                         activeTab === "history"

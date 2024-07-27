@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
+import Notification from "./Notification";
 
 function NavBar() {
     const { user, logout } = useContext(AuthContext);
@@ -42,6 +43,13 @@ function NavBar() {
                             </>
                         )}
                         <li>
+                            {/* {user ? (
+                                <>
+                                    <Notification />
+                                </>
+                            ) : (
+                                <></>
+                            )} */}
                             {user ? (
                                 <NavLink
                                     to="/login"

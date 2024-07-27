@@ -80,8 +80,14 @@ function OthersItems({ shouldRefetch }) {
             }
         } finally {
             setExchangeInitiating(false);
+
+            sendNotification("initiated");
         }
     };
+
+    const sendNotification = (message) => {
+        // exchange initiation notification
+    }
 
     const handleExchangeClick = (item) => {
         setSelectedItemToRequest(item);
@@ -116,7 +122,7 @@ function OthersItems({ shouldRefetch }) {
 
     return (
         <div className="">
-            <h1 className="text-2xl pl-8 font-bold mb-6">
+            <h1 className="text-2xl pl-8 font-bold mb-6 mt-4">
                 Available Items In Your Area
             </h1>
             {items.map((item) => (
@@ -124,11 +130,9 @@ function OthersItems({ shouldRefetch }) {
                     key={item.id}
                     className="bg-white p-8 m-8 rounded-lg shadow-lg"
                 >
-                    <h1 className="text-2xl font-bold mb-4">
-                        {item.owner.username}
-                    </h1>
+                    <h1 className="text-2xl font-bold mb-4">{item.title}</h1>
 
-                    <p className="mb-4">{item.title}</p>
+                    <p className="mb-4">{item.owner.username}</p>
                     <p className="mb-4">Distance: {item.distance} km</p>
                     <p className="mb-4">
                         Max Distance: {item.owner.max_distance} km
@@ -138,7 +142,7 @@ function OthersItems({ shouldRefetch }) {
                         <p>{item.description}</p>
                     </section>
                     <Button
-                        className="mt-4 text-green-500 border border-green-500 hover:bg-green-500 hover:text-white"
+                        className="mt-4 text-green-500 border hover:border-green-500 hover:bg-green-500"
                         onClick={() => handleExchangeClick(item)}
                         disabled={exchangeInitiating}
                     >

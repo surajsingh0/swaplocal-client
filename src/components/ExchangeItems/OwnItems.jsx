@@ -37,7 +37,7 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex justify-center gap-4">
             {items.map((item) => (
                 <div key={item.id} className="bg-white p-4 rounded-lg shadow">
                     <h3 className="text-lg font-semibold">{item.title}</h3>
@@ -56,6 +56,7 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
                     )}
                     {isSelectionMode ? (
                         <Button
+                            variant="inline"
                             onClick={() => onItemSelect(item)}
                             className="mt-2 w-full bg-blue-500 text-white hover:bg-blue-600"
                             disabled={item.exchange_status}

@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Button } from "../ui/button";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
 
 import AdjustableRadiusMap from "./RadiusChange";
 
@@ -9,7 +20,7 @@ const MaximumDistanceRadius = ({ onDistanceUpdate }) => {
     const [updating, setUpdating] = useState(false);
 
     const handleMaxDistance = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         setUpdating(true);
         try {
             const response = await axios.put(
@@ -36,29 +47,51 @@ const MaximumDistanceRadius = ({ onDistanceUpdate }) => {
     };
 
     return (
-        <div>
-            <AdjustableRadiusMap distance={distance} setDistance={setDistance} coordinate={[ current_user.latitude, current_user.longitude]}/>
-            {/* <p className="text-center">Maximum Distance Radius</p>
-            <input
-                value={distance}
-                onChange={(e) => setDistance(e.target.value)}
-                type="range"
-                min="1"
-                max="100"
-                placeholder="10"
-                className="w-full p-2 border border-gray-300 rounded-lg"
-            />
-            <p className="text-center">{distance} km</p> */}
-            <button
-                onClick={handleMaxDistance}
-                disabled={updating}
-                className={`bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300 ${
-                    updating ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-            >
-                {updating ? 'Saving...' : 'Save'}
-            </button>
-        </div>
+        <Drawer>
+            <div className="absolute left-96">
+                <DrawerTrigger>
+                    <Button variant="secondary">Change Your Radius</Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                    <div className="mx-auto w-full max-w-2xl text-neutral-50">
+                        <DrawerHeader>
+                            <DrawerTitle>Change Your Radius</DrawerTitle>
+                            <DrawerDescription>
+                                How far you are willing to travel?
+                            </DrawerDescription>
+                        </DrawerHeader>
+                        <AdjustableRadiusMap
+                            distance={distance}
+                            setDistance={setDistance}
+                            coordinate={[
+                                current_user.latitude,
+                                current_user.longitude,
+                            ]}
+                        />
+                        <DrawerFooter>
+                            <div className="flex justify-center">
+                                <DrawerClose>
+                                    <div className="space-x-2">
+                                        <Button
+                                            onClick={handleMaxDistance}
+                                            disabled={updating}
+                                            className={`bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300 ${
+                                                updating
+                                                    ? "opacity-50 cursor-not-allowed"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {updating ? "Saving..." : "Save"}
+                                        </Button>
+                                        <Button>Cancel</Button>
+                                    </div>
+                                </DrawerClose>
+                            </div>
+                        </DrawerFooter>
+                    </div>
+                </DrawerContent>
+            </div>
+        </Drawer>
     );
 };
 
