@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "../ui/button";
+import FullScreenLoader from "../FullScreenLoader";
 
 const OwnItems = ({ onItemSelect, isSelectionMode }) => {
     const [items, setItems] = useState([]);
@@ -33,7 +34,7 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
         fetchOwnItems();
     }, []);
 
-    if (loading) return <p>Loading your items...</p>;
+    if (loading) return <FullScreenLoader/>
     if (error) return <p>{error}</p>;
 
     return (

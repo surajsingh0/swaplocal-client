@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
-import Notification from "./Notification";
+// import Notification from "./Notification";
+import { CgProfile } from "react-icons/cg";
+import ProfileModal from "./ProfileModal";
 
 function NavBar() {
     const { user, logout } = useContext(AuthContext);
+    const [open, setOpen] = useState(false);
 
     return (
         <header className="bg-white shadow-md sticky top-0 z-50">
@@ -43,6 +46,15 @@ function NavBar() {
                             </>
                         )}
                         <li>
+                            {user ? (
+                                <NavLink to="#profile" onClick={setOpen}>
+                                    <CgProfile className="size-7" />
+                                </NavLink>
+                            ) : (
+                                <></>
+                            )}
+                        </li>
+                        <li>
                             {/* {user ? (
                                 <>
                                     <Notification />
@@ -70,6 +82,7 @@ function NavBar() {
                     </ul>
                 </nav>
             </div>
+            <ProfileModal open={open} setOpen={setOpen} />
         </header>
     );
 }

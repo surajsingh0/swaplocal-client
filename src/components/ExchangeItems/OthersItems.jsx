@@ -4,7 +4,7 @@ import FullScreenLoader from "../FullScreenLoader";
 import { Button } from "../ui/button";
 import ItemSelectionModal from "./ItemSelectionModal";
 
-function OthersItems({ shouldRefetch }) {
+function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -87,7 +87,7 @@ function OthersItems({ shouldRefetch }) {
 
     const sendNotification = (message) => {
         // exchange initiation notification
-    }
+    };
 
     const handleExchangeClick = (item) => {
         setSelectedItemToRequest(item);
@@ -122,34 +122,71 @@ function OthersItems({ shouldRefetch }) {
 
     return (
         <div className="">
-            <h1 className="text-2xl pl-8 font-bold mb-6 mt-4">
-                Available Items In Your Area
-            </h1>
+            <div className="flex justify-between text-2xl pl-8 font-bold mb-6 mt-4">
+                <h1>Available Items In Your Area</h1>
+                <div className="flex gap-2 mr-8">
+                    <Button
+                        onClick={setMaxDistanceOpen}
+                        variant="inline"
+                        className="bg-blue-500 text-white hover:bg-blue-600"
+                    >
+                        Change Your Radius
+                    </Button>
+                    <Button
+                        variant="inline"
+                        className="bg-blue-500 text-white hover:bg-blue-600"
+                    >
+                        Add an Item
+                    </Button>
+                </div>
+            </div>
             {items.map((item) => (
                 <div
                     key={item.id}
-                    className="bg-white p-8 m-8 rounded-lg shadow-lg"
+                    className="bg-green-100 border border-green-200 p-8 m-8 rounded-lg shadow-lg flex justify-around gap-2"
                 >
-                    <h1 className="text-2xl font-bold mb-4">{item.title}</h1>
+                    <div className="w-6/12">
+                        <h1 className="text-2xl font-bold mb-4">
+                            {item.title}
+                        </h1>
 
-                    <p className="mb-4">{item.owner.username}</p>
-                    <p className="mb-4">Distance: {item.distance} km</p>
-                    <p className="mb-4">
-                        Max Distance: {item.owner.max_distance} km
-                    </p>
-                    <section className="bg-gray-200 p-4 rounded-md shadow-sm">
-                        <h2 className="text-lg font-bold mb-2">Description</h2>
-                        <p>{item.description}</p>
-                    </section>
-                    <Button
-                        className="mt-4 text-green-500 border hover:border-green-500 hover:bg-green-500"
-                        onClick={() => handleExchangeClick(item)}
-                        disabled={exchangeInitiating}
-                    >
-                        {exchangeInitiating
-                            ? "Requesting..."
-                            : "Request Exchange"}
-                    </Button>
+                        <p className="mb-4">
+                            by{" "}
+                            <span className="font-bold">
+                                {item.owner.username}
+                            </span>
+                        </p>
+                        <p className="mb-4">
+                            from{" "}
+                            <span className="font-bold">
+                                {Number(item.distance.toFixed(1))} km
+                            </span>{" "}
+                            away
+                        </p>
+                        <p className="mb-4">
+                            Maximum Distance: {item.owner.max_distance} km
+                        </p>
+                        <section className="bg-white p-4 rounded-md">
+                            <h2 className="text-lg font-bold mb-2">
+                                Item Description
+                            </h2>
+                            <p>{item.description}</p>
+                        </section>
+                        <Button
+                            variant="inline"
+                            className="mt-4 bg-green-500 text-white hover:bg-green-600"
+                            onClick={() => handleExchangeClick(item)}
+                            disabled={exchangeInitiating}
+                        >
+                            {exchangeInitiating
+                                ? "Requesting..."
+                                : "Request Exchange"}
+                        </Button>
+                    </div>
+                    <img
+                        src={item.image}
+                        className="w-6/12 rounded-md"
+                    ></img>
                 </div>
             ))}
             <ItemSelectionModal
