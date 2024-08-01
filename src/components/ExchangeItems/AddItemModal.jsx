@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AddItemModal = ({ isOpen, onClose }) => {
+const AddItemModal = ({ isOpen, onClose, item = null }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
@@ -11,29 +11,40 @@ const AddItemModal = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (isOpen) {
-            setTitle("");
-            setDescription("");
-            setImage(null);
+            if (item) {
+                // Edit mode: populate fields with item data
+                setTitle(item.title || "");
+                setDescription(item.description || "");
+                setImage(item.image || null);
+            } else {
+                // Add mode: reset fields
+                setTitle("");
+                setDescription("");
+                setImage(null);
+            }
             setErrors({});
             setSubmitError("");
         }
-    }, [isOpen]);
+    }, [isOpen, item]);
 
-    const onSubmit = async (item) => {
+    const onSubmit = async (itemData) => {
         try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_API_URL}api/items/`,
-                item,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
+            const url = item
+                ? `${import.meta.env.VITE_API_URL}api/items/${item.id}/`
+                : `${import.meta.env.VITE_API_URL}api/items/`;
+            const method = item ? axios.put : axios.post;
+
+            console.log(item, itemData)
+
+            const response = await method(url, itemData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            console.log(
+                item ? "Item successfully updated!" : "Item successfully added!"
             );
-            console.log("Item succesfully added!");
         } catch (error) {
             console.error(error);
         }
@@ -107,7 +118,9 @@ const AddItemModal = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
                 <div className="flex justify-between items-center p-6 border-b">
-                    <h2 className="text-xl font-semibold">Add New Item</h2>
+                    <h2 className="text-xl font-semibold">
+                        {item ? "Edit Item" : "Add New Item"}
+                    </h2>
                     <button
                         onClick={onClose}
                         className="text-gray-500 hover:text-gray-700 focus:outline-none"
@@ -270,7 +283,7 @@ const AddItemModal = ({ isOpen, onClose }) => {
                                     ></path>
                                 </svg>
                             ) : null}
-                            Add Item
+                            {item ? "Update Item" : "Add Item"}
                         </button>
                     </div>
                 </form>

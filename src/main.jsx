@@ -17,6 +17,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import UserLocationPage from "./components/UserLocationPage.jsx";
 import UserProfile from "./components/UserProfile.jsx";
+import OwnItems from "./components/ExchangeItems/OwnItems.jsx";
 
 const router = createBrowserRouter([
     {
@@ -102,6 +103,18 @@ const router = createBrowserRouter([
                             <Login />
                         )
                     }
+                </AuthContext.Consumer>
+                <Footer />
+            </>
+        ),
+    },
+    {
+        path: "/own-items",
+        element: (
+            <>
+                <NavBar />
+                <AuthContext.Consumer>
+                    {({ user }) => (user ? <OwnItems /> : <Login />)}
                 </AuthContext.Consumer>
                 <Footer />
             </>

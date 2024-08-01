@@ -3,7 +3,7 @@ import axios from "axios";
 import FullScreenLoader from "../FullScreenLoader";
 import { Button } from "../ui/button";
 import ItemSelectionModal from "./ItemSelectionModal";
-import AddItemModal from "./AddItemModal";
+import { NavLink } from "react-router-dom";
 
 function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
     const [items, setItems] = useState([]);
@@ -13,8 +13,6 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
     const [exchangeInitiating, setExchangeInitiating] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItemToRequest, setSelectedItemToRequest] = useState(null);
-
-    const [isAddItemOpen, setAddItemOpen] = useState(false);
 
     const fetchItems = async () => {
         setLoading(true);
@@ -140,13 +138,14 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
                     >
                         Change Your Radius
                     </Button>
-                    <Button
-                        onClick={() => setAddItemOpen(true)}
-                        variant="inline"
-                        className="bg-blue-500 text-white hover:bg-blue-600"
-                    >
-                        Add an Item
-                    </Button>
+                    <NavLink to="/own-items">
+                        <Button
+                            variant="inline"
+                            className="bg-blue-500 text-white hover:bg-blue-600"
+                        >
+                            Manage Your Items
+                        </Button>
+                    </NavLink>
                 </div>
             </div>
             {items.map((item) => (
@@ -202,10 +201,6 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
                     initiateExchange(itemToOffer);
                     setIsModalOpen(false);
                 }}
-            />
-            <AddItemModal
-                isOpen={isAddItemOpen}
-                onClose={() => setAddItemOpen(false)}
             />
         </div>
     );
