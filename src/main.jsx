@@ -16,6 +16,7 @@ import ExchangeItems from "./components/ExchangeItems/ExchangeItems.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
 import UserLocationPage from "./components/UserLocationPage.jsx";
+import UserProfile from "./components/UserProfile.jsx";
 
 const router = createBrowserRouter([
     {
@@ -83,6 +84,24 @@ const router = createBrowserRouter([
                 <NavBar />
                 <AuthContext.Consumer>
                     {({ user }) => (user ? <UserLocationPage /> : <Login />)}
+                </AuthContext.Consumer>
+                <Footer />
+            </>
+        ),
+    },
+    {
+        path: "/profile",
+        element: (
+            <>
+                <NavBar />
+                <AuthContext.Consumer>
+                    {({ user, logout }) =>
+                        user ? (
+                            <UserProfile user={user} logout={logout} />
+                        ) : (
+                            <Login />
+                        )
+                    }
                 </AuthContext.Consumer>
                 <Footer />
             </>

@@ -32,11 +32,11 @@ const UserLocationPage = () => {
     const current_user = JSON.parse(localStorage.getItem("user"));
 
     const [coordinates, setCoordinates] = useState({
-        lat: current_user.latitude,
-        lng: current_user.longitude,
+        lat: current_user.latitude ? current_user.latitude : 0,
+        lng: current_user.longitude ? current_user.longitude : 0,
     });
     const [address, setAddress] = useState("");
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(true);
 
     const navigate = useNavigate();
 
@@ -81,7 +81,6 @@ const UserLocationPage = () => {
         console.log(e.latlng);
     };
 
-
     function DraggableMarker() {
         const markerRef = useRef(null);
         const eventHandlers = useMemo(
@@ -95,7 +94,7 @@ const UserLocationPage = () => {
             }),
             []
         );
-    
+
         return (
             <Marker
                 draggable={true}
