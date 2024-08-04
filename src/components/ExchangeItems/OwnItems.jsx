@@ -60,7 +60,7 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
                     Add an Item
                 </Button>
             </div>
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-4 flex-wrap">
                 {items.map((item) => (
                     <div
                         key={item.id}
