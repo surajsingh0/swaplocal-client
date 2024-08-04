@@ -81,18 +81,7 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
             }
         } finally {
             setExchangeInitiating(false);
-
-            sendNotification("initiated");
-
-            // setItems(
-            //     (prev) =>
-            //         (prev = items.filter((item) => item.id !== itemToOffer.id))
-            // );
         }
-    };
-
-    const sendNotification = (message) => {
-        // exchange initiation notification
     };
 
     const handleExchangeClick = (item) => {

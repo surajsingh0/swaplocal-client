@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
-// import Notification from "./Notification";
 import { CgProfile } from "react-icons/cg";
 
 function NavBar() {
@@ -57,13 +56,6 @@ function NavBar() {
                             )}
                         </li>
                         <li>
-                            {/* {user ? (
-                                <>
-                                    <Notification />
-                                </>
-                            ) : (
-                                <></>
-                            )} */}
                             {user ? (
                                 <NavLink
                                     to="/login"
