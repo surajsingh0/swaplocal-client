@@ -1,11 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import useNotifications from "@/hooks/useNotification";
 
 function NavBar() {
     const { user, logout } = useContext(AuthContext);
+    const { notifications, error } = useNotifications();
+    const [readNotifications, setReadNotifications] = useState([]);
+
+    useEffect(() => {
+        if (notifications) {
+            const unreadNotifications = notifications.filter(
+                (notification) => !notification.is_read
+            );
+            setReadNotifications(unreadNotifications);
+        }
+    }, [notifications]);
 
     return (
         <header className="bg-white shadow-md sticky top-0 z-50">
@@ -47,11 +59,26 @@ function NavBar() {
                                 </li>
                             </>
                         )}
-                        <li>{user ? (
-                            <NavLink to='/notifications'>
-                                <IoMdNotificationsOutline className="size-7 cursor-pointer" />
-                            </NavLink>
-                        ) : <></>}</li>
+                        <li>
+                            {user ? (
+                                <NavLink
+                                    to="/notifications"
+                                    className={"relative"}
+                                >
+                                    {readNotifications.length > 0 ? (
+                                        <div className="absolute top-0 right-0 bg-red-500 text-white text-xs px-1 rounded-full">
+                                            {readNotifications.length}
+                                        </div>
+                                    ) : (
+                                        <></>
+                                    )}
+
+                                    <IoMdNotificationsOutline className="text-3xl cursor-pointer" />
+                                </NavLink>
+                            ) : (
+                                <></>
+                            )}
+                        </li>
                         <li>
                             {user ? (
                                 <NavLink to="/profile">
