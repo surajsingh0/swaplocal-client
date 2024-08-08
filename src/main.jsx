@@ -19,6 +19,8 @@ import UserLocationPage from "./components/UserLocationPage.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import OwnItems from "./components/ExchangeItems/OwnItems.jsx";
 
+import Notifications from "./components/Notfications.jsx";
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -115,6 +117,18 @@ const router = createBrowserRouter([
                 <NavBar />
                 <AuthContext.Consumer>
                     {({ user }) => (user ? <OwnItems /> : <Login />)}
+                </AuthContext.Consumer>
+                <Footer />
+            </>
+        ),
+    },
+    {
+        path: "/notifications",
+        element: (
+            <>
+                <NavBar />
+                <AuthContext.Consumer>
+                    {({ user }) => (user ? <Notifications /> : <Login />)}
                 </AuthContext.Consumer>
                 <Footer />
             </>

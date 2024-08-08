@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
 import { CgProfile } from "react-icons/cg";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 function NavBar() {
     const { user, logout } = useContext(AuthContext);
@@ -46,6 +47,11 @@ function NavBar() {
                                 </li>
                             </>
                         )}
+                        <li>{user ? (
+                            <NavLink to='/notifications'>
+                                <IoMdNotificationsOutline className="size-7 cursor-pointer" />
+                            </NavLink>
+                        ) : <></>}</li>
                         <li>
                             {user ? (
                                 <NavLink to="/profile">
