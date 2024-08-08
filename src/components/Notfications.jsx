@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import useNotifications from "@/hooks/useNotification";
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -11,33 +12,17 @@ const formatDate = (dateString) => {
         .padStart(2, "0")}`;
 };
 
-const fetchNotifications = async () => {
-    try {
-        const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}api/notifications/`,
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-
-        console.log(response.data);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-const markAsRead = async (notificationId) => {
+const markAsRead = async (notification) => {
     try {
         const response = await axios.put(
-            `${
-                import.meta.env.VITE_API_URL
-            }api/notifications/${notificationId}/`,
+            `${import.meta.env.VITE_API_URL}api/notifications/${
+                notification.id
+            }/`,
             {
                 is_read: true,
+                message: notification.message,
+                exchange: notification.exchange,
+                user: notification.user,
             },
             {
                 headers: {
@@ -54,24 +39,10 @@ const markAsRead = async (notificationId) => {
 };
 
 const Notifications = () => {
-    const [notifications, setNotifications] = useState([]);
+    const { notifications, loading, error } = useNotifications();
 
-    useEffect(() => {
-        const getNotifications = async () => {
-            try {
-                const data = await fetchNotifications();
-                setNotifications(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        getNotifications();
-
-        const intervalId = setInterval(getNotifications, 60000);
-
-        return () => clearInterval(intervalId); // Clear interval on component unmount
-    }, []);
+    if (loading) return <p>Loading notifications...</p>;
+    if (error) return <p>Error fetching notifications.</p>;
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -89,7 +60,7 @@ const Notifications = () => {
                                 <></>
                             ) : (
                                 <button
-                                    onClick={() => markAsRead(notification.id)}
+                                    onClick={() => markAsRead(notification)}
                                     className="bg-slate-500 text-white px-2 py-1 rounded hover:bg-slate-600"
                                 >
                                     Mark as read
