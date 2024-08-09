@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from "react";
 import OthersItems from "./OthersItems";
-import OwnItems from "./OwnItems";
 import MaximumDistanceRadius from "./MaximumDistanceRadius";
-import ManageExchanges from "./ManageExchanges";
 
 const ExchangeItems = () => {
     const [shouldRefetch, setShouldRefetch] = useState(false);
@@ -34,7 +32,6 @@ const ExchangeItems = () => {
                     />
                 </div>
             </div>
-            <ManageExchanges />
         </div>
     );
 };

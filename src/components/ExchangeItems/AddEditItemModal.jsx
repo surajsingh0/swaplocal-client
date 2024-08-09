@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AddItemModal = ({ isOpen, onClose, item = null }) => {
+const AddEditItemModal = ({ isOpen, onClose, item = null }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
@@ -27,14 +27,14 @@ const AddItemModal = ({ isOpen, onClose, item = null }) => {
         }
     }, [isOpen, item]);
 
-    const onSubmit = async (itemData) => {
+    const fetchAddEditItem = async (itemData) => {
         try {
             const url = item
                 ? `${import.meta.env.VITE_API_URL}api/items/${item.id}/`
                 : `${import.meta.env.VITE_API_URL}api/items/`;
             const method = item ? axios.put : axios.post;
 
-            console.log(item, itemData)
+            console.log(item, itemData);
 
             const response = await method(url, itemData, {
                 headers: {
@@ -77,7 +77,7 @@ const AddItemModal = ({ isOpen, onClose, item = null }) => {
         }
 
         try {
-            await onSubmit({
+            await fetchAddEditItem({
                 title,
                 description,
                 image,
@@ -292,4 +292,4 @@ const AddItemModal = ({ isOpen, onClose, item = null }) => {
     );
 };
 
-export default AddItemModal;
+export default AddEditItemModal;

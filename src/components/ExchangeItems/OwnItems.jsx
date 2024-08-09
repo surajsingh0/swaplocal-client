@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "../ui/button";
 import FullScreenLoader from "../FullScreenLoader";
-import AddItemModal from "./AddItemModal";
+import AddEditItemModal from "./AddEditItemModal";
 
 const OwnItems = ({ onItemSelect, isSelectionMode }) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isAddItemOpen, setAddItemOpen] = useState(false);
+    const [isAddEditItemOpen, setAddEditItemOpen] = useState(false);
     const [itemToEdit, setItemToEdit] = useState(null);
 
     useEffect(() => {
@@ -44,15 +44,15 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
         <div className="container mx-auto p-4 space-y-4">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold">Your Items</h1>
-                <AddItemModal
-                    isOpen={isAddItemOpen}
-                    onClose={() => setAddItemOpen(false)}
+                <AddEditItemModal
+                    isOpen={isAddEditItemOpen}
+                    onClose={() => setAddEditItemOpen(false)}
                     item={itemToEdit}
                 />
                 <Button
                     onClick={() => {
                         setItemToEdit(null);
-                        setAddItemOpen(true);
+                        setAddEditItemOpen(true);
                     }}
                     variant="inline"
                     className="bg-blue-500 text-white hover:bg-blue-600"
@@ -85,7 +85,7 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
                         <Button
                             onClick={() => {
                                 setItemToEdit(item);
-                                setAddItemOpen(true);
+                                setAddEditItemOpen(true);
                             }}
                             variant="inline"
                             className="mt-2 w-full bg-gray-200 text-gray-800 hover:bg-gray-300"

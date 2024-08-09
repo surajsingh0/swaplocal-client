@@ -135,6 +135,14 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
                             Manage Your Items
                         </Button>
                     </NavLink>
+                    <NavLink to="/manage-exchanges">
+                        <Button
+                            variant="inline"
+                            className="bg-blue-500 text-white hover:bg-blue-600"
+                        >
+                            Manage Your Exchanges
+                        </Button>
+                    </NavLink>
                 </div>
             </div>
             {items.map((item) => (
