@@ -15,6 +15,7 @@ import ExchangeItems from "./components/ExchangeItems/ExchangeItems.jsx";
 
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { AuthContext } from "./context/AuthContext.jsx";
+import { NotificationProvider } from "./context/NotificationContext.jsx";
 import UserLocationPage from "./components/UserLocationPage.jsx";
 import UserProfile from "./components/UserProfile.jsx";
 import OwnItems from "./components/ExchangeItems/OwnItems.jsx";
@@ -152,8 +153,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <AuthProvider>
-            {" "}
-            <RouterProvider router={router} />
+            <NotificationProvider>
+                {" "}
+                <RouterProvider router={router} />
+            </NotificationProvider>
         </AuthProvider>
     </React.StrictMode>
 );

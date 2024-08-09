@@ -3,11 +3,11 @@ import { NavLink } from "react-router-dom";
 import { AuthContext } from "@/context/AuthContext";
 import { CgProfile } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import useNotifications from "@/hooks/useNotification";
+import { NotificationContext } from "@/context/NotificationContext";
 
 function NavBar() {
     const { user, logout } = useContext(AuthContext);
-    const { notifications, error } = useNotifications();
+    const { notifications } = useContext(NotificationContext);
     const [readNotifications, setReadNotifications] = useState([]);
 
     useEffect(() => {

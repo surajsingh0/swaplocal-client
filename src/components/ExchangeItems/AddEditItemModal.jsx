@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AddEditItemModal = ({ isOpen, onClose, item = null }) => {
+const AddEditItemModal = ({ isOpen, onClose, item = null, setItems }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
@@ -45,6 +45,16 @@ const AddEditItemModal = ({ isOpen, onClose, item = null }) => {
             console.log(
                 item ? "Item successfully updated!" : "Item successfully added!"
             );
+
+            if (item) {
+                // Edit mode: update item in state
+                setItems((prevItems) =>
+                    prevItems.map((i) => (i.id === item.id ? response.data : i))
+                );
+            } else {
+                // Add mode: add new item to state
+                setItems((prevItems) => [...prevItems, response.data]);
+            }
         } catch (error) {
             console.error(error);
         }

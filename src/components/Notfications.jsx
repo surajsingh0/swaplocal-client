@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
-import useNotifications from "@/hooks/useNotification";
+import { NotificationContext } from "../context/NotificationContext";
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -12,34 +12,43 @@ const formatDate = (dateString) => {
         .padStart(2, "0")}`;
 };
 
-const markAsRead = async (notification) => {
-    try {
-        const response = await axios.put(
-            `${import.meta.env.VITE_API_URL}api/notifications/${
-                notification.id
-            }/`,
-            {
-                is_read: true,
-                message: notification.message,
-                exchange: notification.exchange,
-                user: notification.user,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-
-        console.log(response.data);
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
 const Notifications = () => {
-    const { notifications, loading, error } = useNotifications();
+    const { notifications, error, loading, setNotifications } =
+        useContext(NotificationContext);
+
+    const markAsRead = async (notification) => {
+        try {
+            const response = await axios.put(
+                `${import.meta.env.VITE_API_URL}api/notifications/${
+                    notification.id
+                }/`,
+                {
+                    is_read: true,
+                    message: notification.message,
+                    exchange: notification.exchange,
+                    user: notification.user,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            setNotifications(
+                notifications.map((n) =>
+                    n.id === notification.id ? { ...n, is_read: true } : n
+                )
+            );
+
+            console.log(response.data);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    };
 
     if (loading) return <p>Loading notifications...</p>;
     if (error) return <p>Error fetching notifications.</p>;

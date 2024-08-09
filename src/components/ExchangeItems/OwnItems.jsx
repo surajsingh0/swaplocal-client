@@ -48,6 +48,7 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
                     isOpen={isAddEditItemOpen}
                     onClose={() => setAddEditItemOpen(false)}
                     item={itemToEdit}
+                    setItems={setItems}
                 />
                 <Button
                     onClick={() => {
