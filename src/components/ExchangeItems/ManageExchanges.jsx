@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "../ui/button";
+import { ItemView } from "./ItemView";
+import ModalContainer from "../ModalContainer";
 
 const ManageExchanges = () => {
     const [exchanges, setExchanges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("active");
+
+    const [currentItem, setCurrentItem] = useState(null);
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
 
     const fetchExchanges = async () => {
         setLoading(true);
@@ -73,8 +82,32 @@ const ManageExchanges = () => {
             <p className="font-semibold">Status: {exchange.status}</p>
             <p>Initiator: {exchange.initiator_username}</p>
             <p>Receiver: {exchange.receiver_username}</p>
-            <p>Offered Item: {exchange.item_offered_title}</p>
-            <p>Requested Item: {exchange.item_requested_title}</p>
+            <p>
+                Offered Item: {exchange.item_offered_title}
+                <button
+                    onClick={() => {
+                        console.log(exchange.item_offered_item);
+                        setCurrentItem(exchange.item_offered_item);
+                        openModal();
+                    }}
+                    className="ml-2 bg-blue-500 text-white hover:bg-blue-600 rounded px-1"
+                >
+                    View
+                </button>
+            </p>
+            <p>
+                Requested Item: {exchange.item_requested_title}
+                <button
+                    onClick={() => {
+                        console.log(exchange.item_requested_item);
+                        setCurrentItem(exchange.item_requested_item);
+                        openModal();
+                    }}
+                    className="ml-2 bg-blue-500 text-white hover:bg-blue-600 rounded px-1"
+                >
+                    View
+                </button>
+            </p>
             <p>Created: {new Date(exchange.created_at).toLocaleString()}</p>
             <p>
                 Last Updated: {new Date(exchange.updated_at).toLocaleString()}
@@ -157,8 +190,11 @@ const ManageExchanges = () => {
                     {historyExchanges.map(renderExchange)}
                 </div>
             )}
+            <ModalContainer isOpen={isModalOpen} onClose={closeModal}>
+                {currentItem && <ItemView item={currentItem} />}
+            </ModalContainer>
         </div>
     );
-}
+};
 
 export default ManageExchanges;
