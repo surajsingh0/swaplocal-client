@@ -62,10 +62,13 @@ const OwnItems = ({ onItemSelect, isSelectionMode }) => {
                 </Button>
             </div>
             <div className="flex justify-center gap-4 flex-wrap">
+                {items.length === 0 && (
+                    <p className="text-gray-500">You haven't added any items yet. Start by adding an item.</p>
+                )}
                 {items.map((item) => (
                     <div
                         key={item.id}
-                        className="bg-white p-4 rounded-lg shadow"
+                        className="bg-white p-4 rounded-lg shadow-lg"
                     >
                         <h3 className="text-lg font-semibold">{item.title}</h3>
                         <p className="text-sm text-gray-600">

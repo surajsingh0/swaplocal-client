@@ -108,17 +108,9 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
         return <FullScreenLoader label="Loading items..." />;
     }
 
-    if (items.length === 0) {
-        return (
-            <div className="text-center p-4">
-                <p>No available items in your area at the moment.</p>
-            </div>
-        );
-    }
-
     return (
-        <div className="">
-            <div className="flex justify-between text-2xl pl-8 font-bold mb-6 mt-4">
+        <div className="min-h-screen">
+            <div className="flex justify-between items-center text-2xl pl-8 font-bold mb-6 mt-4">
                 <h1>Available Items In Your Area</h1>
                 <div className="flex gap-2 mr-8">
                     <Button
@@ -146,6 +138,15 @@ function OthersItems({ maxDistanceOpen, setMaxDistanceOpen, shouldRefetch }) {
                     </NavLink>
                 </div>
             </div>
+
+            {items.length === 0 && (
+                <div className="text-center">
+                    <p className="text-gray-500">
+                        No items found in your area. Try expanding your search
+                        radius.
+                    </p>
+                </div>
+            )}
             {items.map((item) => (
                 <ItemView
                     key={item.id}

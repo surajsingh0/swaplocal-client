@@ -17,8 +17,8 @@ function Main() {
 
     return (
         <main>
-            <section className="relative h-screen flex items-center justify-center overflow-hidden">
-                <div className="z-20 text-center text-white bg-black bg-opacity-50 p-12 rounded-lg mb-24">
+            <section className="relative h-screen flex items-center justify-center overflow-hidden bg-forest bg-blend-overlay bg-cover bg-center bg-fixed">
+                <div className="z-20 text-center text-white bg-black bg-opacity-60 p-12 rounded-lg mb-24">
                     <h2 className="text-5xl font-bold mb-6">
                         Exchange Items, Enrich Lives
                     </h2>
@@ -95,49 +95,49 @@ function Main() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {[
                             {
-                                icon: <Users className="w-8 h-8" />,
+                                icon: <Users color="white" className="w-8 h-8" />,
                                 title: "Build Community",
                                 description:
                                     "Meet your neighbors and forge new connections.",
                             },
                             {
-                                icon: <ShieldCheck className="w-8 h-8" />,
+                                icon: <ShieldCheck color="white" className="w-8 h-8" />,
                                 title: "Safe & Secure",
                                 description:
                                     "User verification and rating system for peace of mind.",
                             },
                             {
-                                icon: <MapPin className="w-8 h-8" />,
+                                icon: <MapPin color="white" className="w-8 h-8" />,
                                 title: "Customizable Range",
                                 description:
                                     "Set your preferred swap radius, from blocks to miles.",
                             },
                             {
-                                icon: <Gift className="w-8 h-8" />,
+                                icon: <Gift color="white" className="w-8 h-8" />,
                                 title: "Diverse Items",
                                 description:
                                     "From books to furniture, find what you need locally.",
                             },
                             {
-                                icon: <Leaf className="w-8 h-8" />,
+                                icon: <Leaf color="white" className="w-8 h-8" />,
                                 title: "Eco-Friendly",
                                 description:
                                     "Reduce waste and your carbon footprint through sharing.",
                             },
                             {
-                                icon: <DollarSign className="w-8 h-8" />,
+                                icon: <DollarSign color="white" className="w-8 h-8" />,
                                 title: "Save Money",
                                 description:
                                     "Access items without buying new, keeping more cash in your pocket.",
                             },
                             {
-                                icon: <BarChart2 className="w-8 h-8" />,
+                                icon: <BarChart2 color="white" className="w-8 h-8" />,
                                 title: "Track Impact",
                                 description:
                                     "See your personal and community environmental savings.",
                             },
                             {
-                                icon: <Repeat className="w-8 h-8" />,
+                                icon: <Repeat color="white" className="w-8 h-8" />,
                                 title: "Circular Economy",
                                 description:
                                     "Participate in a sustainable economic model.",

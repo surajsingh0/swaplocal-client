@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Button } from "../ui/button";
 import { ItemView } from "./ItemView";
 import ModalContainer from "../ModalContainer";
+import { AuthContext } from "@/context/AuthContext";
 
 const ManageExchanges = () => {
     const [exchanges, setExchanges] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("active");
+
+    const { user } = useContext(AuthContext);
 
     const [currentItem, setCurrentItem] = useState(null);
 
@@ -78,12 +81,38 @@ const ManageExchanges = () => {
     );
 
     const renderExchange = (exchange) => (
-        <div key={exchange.id} className="bg-white p-6 mb-4 rounded-lg shadow">
-            <p className="font-semibold">Status: {exchange.status}</p>
-            <p>Initiator: {exchange.initiator_username}</p>
-            <p>Receiver: {exchange.receiver_username}</p>
+        <div
+            key={exchange.id}
+            className={`bg-white p-6 mb-4 rounded-lg text-neutral-700 text-lg flex flex-col gap-2 ${
+                ["bg-red-200", "bg-green-50", "bg-yellow-50", "bg-green-200"][
+                    ["rejected", "accepted", "pending", "completed"].indexOf(
+                        exchange.status
+                    )
+                ]
+            }`}
+        >
+            <p className="font-semibold">{exchange.status.toUpperCase()}</p>
             <p>
-                Offered Item: {exchange.item_offered_title}
+                Initiator:{" "}
+                <span className="font-semibold">
+                    {user.username === exchange.initiator_username
+                        ? "You"
+                        : exchange.initiator_username}
+                </span>
+            </p>
+            <p>
+                Receiver:{" "}
+                <span className="font-semibold">
+                    {user.username === exchange.receiver_username
+                        ? "You"
+                        : exchange.receiver_username}
+                </span>
+            </p>
+            <p>
+                Offered Item:{" "}
+                <span className="font-semibold">
+                    {exchange.item_offered_title}
+                </span>
                 <button
                     onClick={() => {
                         console.log(exchange.item_offered_item);
@@ -96,7 +125,10 @@ const ManageExchanges = () => {
                 </button>
             </p>
             <p>
-                Requested Item: {exchange.item_requested_title}
+                Requested Item:{" "}
+                <span className="font-semibold">
+                    {exchange.item_requested_title}
+                </span>
                 <button
                     onClick={() => {
                         console.log(exchange.item_requested_item);
@@ -108,15 +140,24 @@ const ManageExchanges = () => {
                     View
                 </button>
             </p>
-            <p>Created: {new Date(exchange.created_at).toLocaleString()}</p>
             <p>
-                Last Updated: {new Date(exchange.updated_at).toLocaleString()}
+                Created:{" "}
+                <span className="font-semibold">
+                    {new Date(exchange.created_at).toLocaleString()}
+                </span>
+            </p>
+            <p>
+                Last Updated:{" "}
+                <span className="font-semibold">
+                    {new Date(exchange.updated_at).toLocaleString()}
+                </span>
             </p>
 
             {exchange.status === "pending" &&
                 exchange.receiver === currentUserId && (
                     <div className="mt-4">
                         <Button
+                            variant="inline"
                             onClick={() =>
                                 handleExchangeAction(exchange.id, "accept")
                             }
@@ -125,6 +166,7 @@ const ManageExchanges = () => {
                             Accept
                         </Button>
                         <Button
+                            variant="inline"
                             onClick={() =>
                                 handleExchangeAction(exchange.id, "reject")
                             }
@@ -136,10 +178,11 @@ const ManageExchanges = () => {
                 )}
             {exchange.status === "accepted" && (
                 <Button
+                    variant="inline"
                     onClick={() =>
                         handleExchangeAction(exchange.id, "complete")
                     }
-                    className="mt-4 bg-blue-500 text-white hover:bg-blue-600"
+                    className="mt-4 bg-green-500 text-white hover:bg-green-600"
                 >
                     Complete Exchange
                 </Button>
@@ -179,7 +222,11 @@ const ManageExchanges = () => {
                     <h3 className="text-xl font-semibold mb-4">
                         Active Exchanges
                     </h3>
-                    {activeExchanges.map(renderExchange)}
+                    {activeExchanges.length > 0 ? (
+                        activeExchanges.map(renderExchange)
+                    ) : (
+                        <p className="text-gray-500">No active exchanges</p>
+                    )}
                 </div>
             )}
             {activeTab === "history" && (
@@ -187,7 +234,11 @@ const ManageExchanges = () => {
                     <h3 className="text-xl font-semibold mb-4">
                         Exchange History
                     </h3>
-                    {historyExchanges.map(renderExchange)}
+                    {historyExchanges.length > 0 ? (
+                        historyExchanges.map(renderExchange)
+                    ) : (
+                        <p className="text-gray-500">No exchange history</p>
+                    )}
                 </div>
             )}
             <ModalContainer isOpen={isModalOpen} onClose={closeModal}>

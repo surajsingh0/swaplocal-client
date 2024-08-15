@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MapContainer, TileLayer, Circle, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -30,7 +30,6 @@ const AdjustableRadiusMap = ({ distance, setDistance, coordinate }) => {
             <MapContainer
                 center={center}
                 zoom={10}
-                scrollWheelZoom={false}
                 style={{ height: "300px", width: "100%" }}
             >
                 <TileLayer

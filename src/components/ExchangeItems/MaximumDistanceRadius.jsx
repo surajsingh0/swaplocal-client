@@ -9,7 +9,6 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
-    DrawerTrigger,
 } from "@/components/ui/drawer";
 
 import AdjustableRadiusMap from "./RadiusChange";
@@ -48,9 +47,6 @@ const MaximumDistanceRadius = ({ open, setOpen, onDistanceUpdate }) => {
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            {/* <DrawerTrigger>
-                <Button variant="secondary">Change Your Radius</Button>
-            </DrawerTrigger> */}
             <DrawerContent>
                 <div className="mx-auto w-full max-w-2xl text-neutral-50">
                     <DrawerHeader>
