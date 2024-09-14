@@ -83,7 +83,7 @@ const ManageExchanges = () => {
     const renderExchange = (exchange) => (
         <div
             key={exchange.id}
-            className={`bg-white p-6 mb-4 rounded-lg text-neutral-700 text-lg flex flex-col gap-2 ${
+            className={`p-6 mb-4 rounded-lg text-neutral-700 text-lg flex flex-col gap-2 ${
                 ["bg-red-200", "bg-green-50", "bg-yellow-50", "bg-green-200"][
                     ["rejected", "accepted", "pending", "completed"].indexOf(
                         exchange.status
